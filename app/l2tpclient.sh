@@ -79,9 +79,7 @@ cat > /usr/local/bin/start-vpn <<EOF
 (service strongswan start ;
 sleep 2 ;
 service xl2tpd start) &&
- 
 (echo -e "\nConnecting to ${VPN_CONNETCTION_NAME} ....... \n") && (
-
 ipsec up $VPN_CONNETCTION_NAME
 echo "c ${VPN_CONNETCTION_NAME}" > /var/run/xl2tpd/l2tp-control
 sleep 5
@@ -100,4 +98,5 @@ service strongswan stop) && (echo -e "\nConnection to ${VPN_CONNETCTION_NAME} cl
 EOF
 
 chmod +x /usr/local/bin/stop-vpn
+echo "To start VPN type: start-vpn"
 echo "To stop VPN type: stop-vpn"
