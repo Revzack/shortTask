@@ -1,0 +1,22 @@
+for debian/ubuntu
+sudo apt upgrade
+sudo apt update
+sudo apt install network-manager-l2tp
+
+sudo nmcli connection add connection.id [vpnName] con-name [vpnName] type VPN vpn-type l2tp ifname -- connection.autoconnect no ipv4.method auto vpn.data "gateway = [ipv4], ipsec-enabled = yes, ipsec-psk = 0s"$(base64 <<<'[PSK]' | rev | cut -c2- | rev)"=, mru = 1400, mtu = 1400, password-flags = 0, refuse-chap = yes, refuse-mschap = yes, refuse-pap = yes, require-mppe = yes, user = [user]" vpn.secrets password=[user-password]
+
+
+You have to change:
+- [vpnName] = The name of your connection
+- [ipv4] = ip of the l2tp/ipsec server
+- [PSK] = pre shared key from the l2tp/ipsec server
+- [user] = user name to connect to
+- [user-password] = password of the user to connect
+
+I don't know if generated PSK will work for you, it works for me. If don't just connect with another PC with GUI, then copy PSK from file /etc/NetworkManager/system-connections/{vpn_name} and paste on
+
+Thats it!
+
+To show generated file: nmcli c show id [vpnName]
+To start the VPN from cli: nmcli c up [vpnName]
+
